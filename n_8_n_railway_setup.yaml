@@ -1,0 +1,76 @@
+# n8n Railway Deployment - AI Agent MVP
+
+## 🧱 Dockerfile
+FROM n8nio/n8n
+
+EXPOSE 5678
+
+CMD ["n8n"]
+
+---
+
+## 📄 railway.json
+{
+  "build": {
+    "env": {
+      "N8N_PORT": "5678"
+    }
+  },
+  "start": "n8n"
+}
+
+---
+
+## 🧪 .n8n_env.template
+# Uzupełnij te zmienne w Railway > Variables
+
+# AUTH
+N8N_BASIC_AUTH_ACTIVE=true
+N8N_BASIC_AUTH_USER=admin
+N8N_BASIC_AUTH_PASSWORD=haslo12345
+
+# PORT
+N8N_PORT=5678
+WEBHOOK_TUNNEL_URL=https://twoj-ngrok-link.ngrok-free.app
+
+# EXECUTION MODE
+EXECUTIONS_MODE=queue
+QUEUE_MODE=redis
+
+# GENERIC
+TZ=Europe/Warsaw
+
+---
+
+## 📝 README.md
+
+### ✅ Jak wdrożyć n8n z agentem AI na Railway:
+
+1. Zrób fork tego repozytorium na swoje konto GitHub
+2. Wejdź na [https://railway.app/new](https://railway.app/new)
+3. Wybierz: Deploy from GitHub → wskaż to repo
+4. Przejdź do zakładki `Variables` i wklej zmienne z `.n8n_env.template`
+5. Poczekaj, aż Railway zakończy build (1-2 min)
+6. Wejdź na `https://twoj-projekt.up.railway.app` → zaloguj się admin/haslo12345
+
+### 🧠 Następnie:
+- Kliknij `Import Workflow`
+- Wybierz plik `n8n_ai_agent_mvp.json` (dostarczony wcześniej)
+- Wklej działający link do Twojego modelu (np. przez NGROK lub Cloudflare Tunnel)
+
+---
+
+### 📌 Wymagania:
+- Działa nawet w darmowym planie Railway
+- Konto GitHub
+- Działający tunel do lokalnego modelu Ollama
+
+---
+
+### 📎 Przydatne:
+- Tunnel (cloudflared): `cloudflared tunnel --url http://localhost:11434`
+- Tunnel (ngrok): `ngrok http 11434`
+
+---
+
+Gotowe. Twój agent będzie działał automatycznie po zaimportowaniu workflow. 🚀
